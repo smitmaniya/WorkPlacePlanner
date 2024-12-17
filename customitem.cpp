@@ -1,77 +1,72 @@
 #include "customitem.h"
-#include <QGraphicsScene>
-#include <QGraphicsSceneContextMenuEvent>
-#include <QKeyEvent>
-#include <QCursor>
+#include <QPixmap>
 
-CustomItem::CustomItem(const QString &name, const QColor &color, const QSizeF &size, QGraphicsItem *parent)
-    : QGraphicsRectItem(parent), itemName(name)
+CustomItem::CustomItem(const QString &name, const QString &imagePath, QGraphicsItem *parent)
+    : QGraphicsPixmapItem(parent), itemName(name)
 {
-    setRect(0, 0, size.width(), size.height());
-    setBrush(color);
-
-    setFlag(QGraphicsItem::ItemIsSelectable);
-    setFlag(QGraphicsItem::ItemIsMovable);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-
-    setCursor(Qt::SizeAllCursor); // Default cursor for moving
+    setPixmap(QPixmap(imagePath).scaled(100, 100, Qt::KeepAspectRatio));
+    setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
 }
 
-// Mouse press: Initiate resizing or moving
-void CustomItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    QRectF rect = this->rect();
-    QPointF clickPos = event->pos();
 
-    // Detect bottom-right corner for resizing
-    if (qAbs(clickPos.x() - rect.width()) < 10 && qAbs(clickPos.y() - rect.height()) < 10) {
-        resizing = true;
-        lastMousePos = event->scenePos();
-        setCursor(Qt::SizeFDiagCursor);
-    } else {
-        QGraphicsRectItem::mousePressEvent(event);
-    }
-}
+// // Mouse press: Initiate resizing or moving
+// void CustomItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+// {
+//     QRectF rect = this->boundingRect();
+//     QPointF clickPos = event->pos();
 
-// Mouse move: Handle resizing or moving
-void CustomItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (resizing) {
-        QPointF delta = event->scenePos() - lastMousePos;
+//     // Detect bottom-right corner for resizing
+//     if (qAbs(clickPos.x() - rect.width()) < 10 && qAbs(clickPos.y() - rect.height()) < 10) {
+//         resizing = true;
+//         lastMousePos = event->scenePos();
+//         setCursor(Qt::SizeFDiagCursor);
+//     } else {
+//         QGraphicsPixmapItem::mousePressEvent(event); // Call base class implementation
+//     }
+// }
 
-        QRectF newRect = rect();
-        newRect.setWidth(qMax(20.0, newRect.width() + delta.x()));
-        newRect.setHeight(qMax(20.0, newRect.height() + delta.y()));
-        setRect(newRect);
+// // Mouse move: Handle resizing or moving
+// void CustomItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+// {
+//     if (resizing) {
+//         QPointF delta = event->scenePos() - lastMousePos;
 
-        lastMousePos = event->scenePos();
-    } else {
-        QGraphicsRectItem::mouseMoveEvent(event);
-    }
-}
+//         // Update pixmap size while maintaining aspect ratio
+//         QPixmap pixmap = this->pixmap();
+//         QSize newSize = pixmap.size() + QSize(delta.x(), delta.y());
 
-// Mouse release: Stop resizing
-void CustomItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (resizing) {
-        resizing = false;
-        setCursor(Qt::SizeAllCursor);
-    }
-    QGraphicsRectItem::mouseReleaseEvent(event);
-}
+//         if (newSize.width() > 20 && newSize.height() > 20) {
+//             setPixmap(pixmap.scaled(newSize, Qt::KeepAspectRatio));
+//         }
 
-// Context menu: Handle rotate and delete actions
-void CustomItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-    QMenu menu;
-    QAction *rotateAction = menu.addAction("Rotate 45°");
-    QAction *deleteAction = menu.addAction("Delete");
+//         lastMousePos = event->scenePos();
+//     } else {
+//         QGraphicsPixmapItem::mouseMoveEvent(event); // Call base class implementation
+//     }
+// }
 
-    QAction *selectedAction = menu.exec(event->screenPos());
+// // Mouse release: Stop resizing
+// void CustomItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+// {
+//     if (resizing) {
+//         resizing = false;
+//         setCursor(Qt::ArrowCursor);
+//     }
+//     QGraphicsPixmapItem::mouseReleaseEvent(event); // Call base class implementation
+// }
 
-    if (selectedAction == rotateAction) {
-        setRotation(rotation() + 45);
-    } else if (selectedAction == deleteAction) {
-        delete this;
-    }
-}
+// // Context menu: Handle rotate and delete actions
+// void CustomItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+// {
+//     QMenu menu;
+//     QAction *rotateAction = menu.addAction("Rotate 45°");
+//     QAction *deleteAction = menu.addAction("Delete");
+
+//     QAction *selectedAction = menu.exec(event->screenPos());
+
+//     if (selectedAction == rotateAction) {
+//         setRotation(rotation() + 45);
+//     } else if (selectedAction == deleteAction) {
+//         delete this;
+//     }
+// }

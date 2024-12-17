@@ -64,37 +64,23 @@ void MainWindow::addItemToScene(QListWidgetItem *item)
     CustomItem *customItem = nullptr;
 
     if (item->text() == "Chair") {
-        customItem = new CustomItem("Chair");
-        customItem->setRect(0, 0, 50, 50);
-        customItem->setBrush(Qt::gray);
-        customItem->setPen(QPen(Qt::black, 1));
+        customItem = new CustomItem("Chair", ":/images/chair.jpg");
     } else if (item->text() == "Table") {
-        customItem = new CustomItem("Table");
-        customItem->setRect(0, 0, 100, 50);
-        customItem->setBrush(Qt::blue);
-        customItem->setPen(QPen(Qt::darkBlue, 1));
+        customItem = new CustomItem("Table", ":/images/table.png");
     } else if (item->text() == "Work Zone") {
-        customItem = new CustomItem("Work Zone");
-        customItem->setRect(0, 0, 200, 150);
-        customItem->setBrush(QColor("#98FB98"));
-        customItem->setPen(QPen(Qt::darkGreen, 1));
+        customItem = new CustomItem("Work Zone", ":/images/workzone.png");
     } else if (item->text() == "Office Zone") {
-        customItem = new CustomItem("Office Zone");
-        customItem->setRect(0, 0, 200, 150);
-        customItem->setBrush(QColor("#FFEB3B"));
-        customItem->setPen(QPen(Qt::darkYellow, 1));
+        customItem = new CustomItem("Office Zone", ":/images/officezone.png");
     } else if (item->text() == "Storage Zone") {
-        customItem = new CustomItem("Storage Zone");
-        customItem->setRect(0, 0, 200, 150);
-        customItem->setBrush(QColor("#FF9800"));
-        customItem->setPen(QPen(Qt::darkRed, 1));
+        customItem = new CustomItem("Storage Zone", ":/images/storagezone.png");
     }
 
     if (customItem) {
-        customItem->setZValue(0);
         scene->addItem(customItem);
+        customItem->setPos(100, 100); // Default position
     }
 }
+
 // Export the workspace to an XML file
 void MainWindow::exportToXML()
 {
@@ -109,10 +95,9 @@ void MainWindow::exportToXML()
             element.setAttribute("name", customItem->getName());
             element.setAttribute("x", customItem->x());
             element.setAttribute("y", customItem->y());
-            element.setAttribute("width", customItem->rect().width());
-            element.setAttribute("height", customItem->rect().height());
+            element.setAttribute("width", customItem->pixmap().width());
+            element.setAttribute("height", customItem->pixmap().height());
             element.setAttribute("rotation", customItem->rotation());
-            element.setAttribute("zValue", customItem->zValue());
             root.appendChild(element);
         }
     }
@@ -160,15 +145,16 @@ void MainWindow::importFromXML()
         QString name = element.attribute("name");
         qreal x = element.attribute("x").toDouble();
         qreal y = element.attribute("y").toDouble();
-        qreal width = element.attribute("width").toDouble();
-        qreal height = element.attribute("height").toDouble();
-        qreal rotation = element.attribute("rotation").toDouble();
-        qreal zValue = element.attribute("zValue").toDouble();
+        QString imagePath;
 
-        CustomItem *item = new CustomItem(name, Qt::gray, QSizeF(width, height));
+        if (name == "Chair") imagePath = ":/Resources/Images/chair.jpg";
+        else if (name == "Table") imagePath = ":/images/table.png";
+        else if (name == "Work Zone") imagePath = ":/images/workzone.png";
+        else if (name == "Office Zone") imagePath = ":/images/officezone.png";
+        else if (name == "Storage Zone") imagePath = ":/images/storagezone.png";
+
+        CustomItem *item = new CustomItem(name, imagePath);
         item->setPos(x, y);
-        item->setRotation(rotation);
-        item->setZValue(zValue);
         scene->addItem(item);
     }
 

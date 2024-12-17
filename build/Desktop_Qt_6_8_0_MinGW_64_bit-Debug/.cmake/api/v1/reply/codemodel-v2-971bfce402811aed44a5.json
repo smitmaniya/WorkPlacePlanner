@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-1f1f93ff7ca4ed339b81.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Workplace_1",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Workplace_1::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Workplace_1-Debug-7590b54e424327532268.json",
+					"name" : "Workplace_1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Workplace_1_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Workplace_1_autogen-Debug-24e4277116bf9c48a2a2.json",
+					"name" : "Workplace_1_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Workplace_1_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Workplace_1_autogen_timestamp_deps-Debug-4a895ef11a3970e8abf7.json",
+					"name" : "Workplace_1_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/QT Application/Workplace_1/Workplace_1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug",
+		"source" : "D:/QT Application/Workplace_1/Workplace_1"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
